@@ -43,11 +43,13 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1392, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1856, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -58,13 +60,13 @@
             this.addShape,
             this.exit});
             this.menuItem.Name = "menuItem";
-            this.menuItem.Size = new System.Drawing.Size(48, 20);
+            this.menuItem.Size = new System.Drawing.Size(63, 24);
             this.menuItem.Text = "Меню";
             // 
             // newBoard
             // 
             this.newBoard.Name = "newBoard";
-            this.newBoard.Size = new System.Drawing.Size(164, 22);
+            this.newBoard.Size = new System.Drawing.Size(203, 26);
             this.newBoard.Text = "Новая доска";
             this.newBoard.Click += new System.EventHandler(this.NewBoard_Click);
             // 
@@ -75,42 +77,43 @@
             this.addTriangle,
             this.addSquare});
             this.addShape.Name = "addShape";
-            this.addShape.Size = new System.Drawing.Size(164, 22);
+            this.addShape.Size = new System.Drawing.Size(203, 26);
             this.addShape.Text = "Добавить фигуру";
             // 
             // addCircle
             // 
             this.addCircle.Name = "addCircle";
-            this.addCircle.Size = new System.Drawing.Size(152, 22);
+            this.addCircle.Size = new System.Drawing.Size(172, 26);
             this.addCircle.Text = "Круг";
             this.addCircle.Click += new System.EventHandler(this.AddCircle_Click);
             // 
             // addTriangle
             // 
             this.addTriangle.Name = "addTriangle";
-            this.addTriangle.Size = new System.Drawing.Size(152, 22);
+            this.addTriangle.Size = new System.Drawing.Size(172, 26);
             this.addTriangle.Text = "Треугольник";
             this.addTriangle.Click += new System.EventHandler(this.AddTriangle_Click);
             // 
             // addSquare
             // 
             this.addSquare.Name = "addSquare";
-            this.addSquare.Size = new System.Drawing.Size(152, 22);
+            this.addSquare.Size = new System.Drawing.Size(172, 26);
             this.addSquare.Text = "Квадрат";
             this.addSquare.Click += new System.EventHandler(this.AddSquare_Click);
             // 
             // exit
             // 
             this.exit.Name = "exit";
-            this.exit.Size = new System.Drawing.Size(164, 22);
+            this.exit.Size = new System.Drawing.Size(203, 26);
             this.exit.Text = "Выход";
             this.exit.Click += new System.EventHandler(this.Exit_Click);
             // 
             // nexStep
             // 
-            this.nexStep.Location = new System.Drawing.Point(0, 707);
+            this.nexStep.Location = new System.Drawing.Point(0, 870);
+            this.nexStep.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nexStep.Name = "nexStep";
-            this.nexStep.Size = new System.Drawing.Size(1392, 23);
+            this.nexStep.Size = new System.Drawing.Size(1856, 28);
             this.nexStep.TabIndex = 1;
             this.nexStep.Text = "Следующий шаг";
             this.nexStep.UseVisualStyleBackColor = true;
@@ -118,22 +121,25 @@
             // 
             // boardPanel
             // 
-            this.boardPanel.Location = new System.Drawing.Point(0, 28);
+            this.boardPanel.Location = new System.Drawing.Point(0, 34);
+            this.boardPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.boardPanel.Name = "boardPanel";
-            this.boardPanel.Size = new System.Drawing.Size(1392, 673);
+            this.boardPanel.Size = new System.Drawing.Size(1856, 828);
             this.boardPanel.TabIndex = 2;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1392, 733);
+            this.ClientSize = new System.Drawing.Size(1856, 902);
             this.Controls.Add(this.boardPanel);
             this.Controls.Add(this.nexStep);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
