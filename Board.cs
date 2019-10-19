@@ -21,6 +21,8 @@ namespace task
         private const int defaultCountCellWidth = 25;
         private const int defaultCountCellHeight = 12;
 
+        private TypeShape[,] gameField;
+
         public Board(MainForm _mainForm, int _countCellWidth, int _countCellHeight)
         {
             this.mainForm = _mainForm;
@@ -30,7 +32,11 @@ namespace task
             this.CalculateSize();
             
             this.InitializeGraphics();
-            this.DrawBoard();
+
+            gameField = new TypeShape[countCellHeight, countCellWidth];
+            for (int i = 0; i < countCellHeight; i++)
+                for (int j = 0; j < countCellWidth; j++)
+                    gameField[i, j] = TypeShape.Empty;
         }
 
         private void InitializeGraphics()
@@ -43,7 +49,10 @@ namespace task
         public void DrawBoard()
         {
             int i;
+            int j;
             int currentY = 0;
+            this.graphics = this.mainForm.BoardPanel.CreateGraphics();
+            this.graphics.FillRectangle(SystemBrushes.Control, new Rectangle(0, 0, this.boardSizeWidth, this.boardSizeHeight));
 
             for (i = 0; i <= countCellHeight; i++)
             {
@@ -58,6 +67,37 @@ namespace task
                 this.graphics.DrawLine(penBlack, currentX, 0, currentX, this.boardSizeHeight);
                 currentX += this.cellSize;
             }
+
+            TypeShape curShape;
+            int x=0, y=0;
+            for (i = 0; i < countCellHeight; i++)
+                for (j = 0; j < countCellWidth; j++)
+                {
+                    curShape = gameField[i, j];
+                    if (curShape != TypeShape.Empty)
+                    {
+                        this.CellToCoords(j, i, ref x, ref y);
+                        
+                        switch (curShape)
+                        {
+                            case TypeShape.Circle:
+                                {
+                                    this.AddCircle(x, y);
+                                    break;
+                                }
+                            case TypeShape.Triangle:
+                                {
+                                    this.AddTriangle(x, y);
+                                    break;
+                                }
+                            case TypeShape.Square:
+                                {
+                                    this.AddSquare(x, y);
+                                    break;
+                                }
+                        }
+                    }
+                }
         }
 
         public void AddCircle(int x, int y)
@@ -94,6 +134,29 @@ namespace task
 
             this.boardSizeWidth = this.countCellWidth * this.cellSize;
             this.boardSizeHeight = this.countCellHeight * this.cellSize;
+        }
+
+        private void CoordsToCell(int x, int y, ref int cellX, ref int cellY)
+        {
+            cellX = x / cellSize;
+            cellY = y / cellSize;
+        }
+
+        private void CellToCoords(int cellX, int cellY, ref int x, ref int y)
+        {
+            x = cellX * cellSize + cellSize / 2;
+            y = cellY * cellSize + cellSize / 2;
+        }
+
+        public void PutShape(TypeShape shape, int x, int y)
+        {
+            int cellX = 0;
+            int cellY = 0;
+            this.CoordsToCell(x, y, ref cellX, ref cellY);
+            if (cellX >= countCellWidth || cellY >= countCellHeight) return;
+            gameField[cellY, cellX] = shape;
+            //DrawBoard();
+            mainForm.Invalidate();
         }
     }
 }

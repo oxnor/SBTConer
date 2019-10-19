@@ -11,20 +11,17 @@ namespace task
 {
     public partial class MainForm : Form , IMainForm
     {
-        enum TypeShape
-        {
-            Empty,
-            Circle,
-            Triangle,
-            Square
-        }
-
         Board board;
         private TypeShape currentShapeForAdd;
        
         public MainForm()
         {
             InitializeComponent();
+            this.SetStyle(ControlStyles.DoubleBuffer |
+               ControlStyles.UserPaint |
+               ControlStyles.AllPaintingInWmPaint,
+               true);
+            this.UpdateStyles();
             this.currentShapeForAdd = TypeShape.Empty;
             this.CreateNewBoard(0, 0);
         }
@@ -82,26 +79,7 @@ namespace task
         private void BoardPanel_MouseClick(object sender, MouseEventArgs e)
         {
             if (this.board != null)
-            {
-                switch (this.currentShapeForAdd)
-                {
-                    case TypeShape.Circle:
-                    {
-                        this.board.AddCircle(e.X, e.Y);
-                        break;
-                    }
-                    case TypeShape.Triangle:
-                    {
-                        this.board.AddTriangle(e.X, e.Y);
-                        break;
-                    }
-                    case TypeShape.Square:
-                    {
-                        this.board.AddSquare(e.X, e.Y);
-                        break;
-                    }
-                }
-            }
+                board.PutShape(this.currentShapeForAdd, e.X, e.Y);
         }
 
         private void NexStep_Click(object sender, EventArgs e)
