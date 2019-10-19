@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using GameLogic;
+
 namespace task
 {
     public partial class MainForm : Form , IMainForm

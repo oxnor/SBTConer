@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using GameLogic;
 
 namespace task
 {
@@ -21,7 +22,8 @@ namespace task
         private const int defaultCountCellWidth = 25;
         private const int defaultCountCellHeight = 12;
 
-        private TypeShape[,] gameField;
+        GameBoard gameBoard;
+        
 
         public Board(MainForm _mainForm, int _countCellWidth, int _countCellHeight)
         {
@@ -33,10 +35,7 @@ namespace task
             
             this.InitializeGraphics();
 
-            gameField = new TypeShape[countCellHeight, countCellWidth];
-            for (int i = 0; i < countCellHeight; i++)
-                for (int j = 0; j < countCellWidth; j++)
-                    gameField[i, j] = TypeShape.Empty;
+            gameBoard = new GameBoard(countCellWidth, countCellHeight);
         }
 
         private void InitializeGraphics()
@@ -68,36 +67,33 @@ namespace task
                 currentX += this.cellSize;
             }
 
-            TypeShape curShape;
-            int x=0, y=0;
-            for (i = 0; i < countCellHeight; i++)
-                for (j = 0; j < countCellWidth; j++)
+            gameBoard.CellVisitor((cellX, cellY, curShape) =>
+            {
+                if (curShape != TypeShape.Empty)
                 {
-                    curShape = gameField[i, j];
-                    if (curShape != TypeShape.Empty)
+                    int x = 0, y = 0;
+                    this.CellToCoords(cellX, cellY, ref x, ref y);
+
+                    switch (curShape)
                     {
-                        this.CellToCoords(j, i, ref x, ref y);
-                        
-                        switch (curShape)
-                        {
-                            case TypeShape.Circle:
-                                {
-                                    this.AddCircle(x, y);
-                                    break;
-                                }
-                            case TypeShape.Triangle:
-                                {
-                                    this.AddTriangle(x, y);
-                                    break;
-                                }
-                            case TypeShape.Square:
-                                {
-                                    this.AddSquare(x, y);
-                                    break;
-                                }
-                        }
+                        case TypeShape.Circle:
+                            {
+                                this.AddCircle(x, y);
+                                break;
+                            }
+                        case TypeShape.Triangle:
+                            {
+                                this.AddTriangle(x, y);
+                                break;
+                            }
+                        case TypeShape.Square:
+                            {
+                                this.AddSquare(x, y);
+                                break;
+                            }
                     }
                 }
+            });
         }
 
         public void AddCircle(int x, int y)
@@ -154,8 +150,7 @@ namespace task
             int cellY = 0;
             this.CoordsToCell(x, y, ref cellX, ref cellY);
             if (cellX >= countCellWidth || cellY >= countCellHeight) return;
-            gameField[cellY, cellX] = shape;
-            //DrawBoard();
+            gameBoard.PutShape(shape, cellX, cellY);
             mainForm.Invalidate();
         }
     }
