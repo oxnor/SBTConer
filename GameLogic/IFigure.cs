@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GameLogic
+{
+    interface IFigure
+    {
+       // IFigure(Ga)
+        TypeShape typeShape { get; }
+        List<GameBoard> GetNextSteps(ShapeLocation shpPos, GameBoard curBoard);
+    }
+}

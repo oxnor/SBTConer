@@ -33,5 +33,6 @@ namespace GameLogic
             if (x >= countCellWidth || y >= countCellHeight) return;
             fields[y, x] = shape;
         }
+
     }
 }
