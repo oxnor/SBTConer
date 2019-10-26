@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    interface IFigure
+    interface IShape
     {
        // IFigure(Ga)
         TypeShape typeShape { get; }
-        List<GameBoard> GetNextSteps(ShapeLocation shpPos, GameBoard curBoard);
+        List<Step> GetNextSteps(Step curStep);
     }
 }
