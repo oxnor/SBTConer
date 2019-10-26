@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    struct StepOffset
+    class StepOffset
     {
         public StepOffset(int x, int y)
         {
             X = x;
             Y = y;
         }
-        int X;
-        int Y;
+
+        public int X { set; get; }
+        public int Y { set; get; }
     }
 }

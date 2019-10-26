@@ -8,7 +8,13 @@ namespace GameLogic
 {
     class ShapeLocation
     {
-        byte X { set; get; }
-        byte Y { set; get; }
+        public ShapeLocation(byte x, byte y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public byte X { set; get; }
+        public byte Y { set; get; }
     }
 }
