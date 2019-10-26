@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    class ShapeLocation
+    public class ShapeLocation
     {
         public ShapeLocation(byte x, byte y)
         {

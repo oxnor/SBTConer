@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    interface IShape
+    public interface IShape
     {
        // IFigure(Ga)
         TypeShape typeShape { get; }

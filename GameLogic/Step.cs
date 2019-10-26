@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    class Step
+    public class Step
     {
         public Step(GameBoard board, ShapeLocation location, StepResult result)
         {

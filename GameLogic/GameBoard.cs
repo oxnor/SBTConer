@@ -30,7 +30,7 @@ namespace GameLogic
 
         public StepResult PutShape(TypeShape shape, int x, int y, bool checkEmpty = true)
         {
-            if (x >= countCellWidth || y >= countCellHeight || x < 0 || y<0) return StepResult.Illegal;
+            if (x >= countCellWidth || y >= countCellHeight || x < 0 || y < 0) return StepResult.Illegal;
             if (checkEmpty && fields[y, x] != TypeShape.Empty) return StepResult.Illegal;
 
             fields[y, x] = shape;
@@ -43,6 +43,11 @@ namespace GameLogic
                 new Exception("Координаты за пределом поля");
 
             return fields[y, x];
+        }
+
+        public StepResult RemoveShape(int x, int y)
+        {
+            return PutShape(TypeShape.Empty, x, y, checkEmpty:false);
         }
         public GameBoard Clone()
         {

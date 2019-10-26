@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic.Shapes
 {
-    class Circle : IShape
+    public class Circle : IShape
     {
         public TypeShape typeShape => TypeShape.Circle;
 
@@ -22,12 +22,15 @@ namespace GameLogic.Shapes
 
         public List<Step> GetNextSteps(Step curStep)
         {
-            List<Step> Steps = new List<Step>();
-            GameBoard NewBoard = curStep.Board.Clone();
             int LocX = curStep.Location.X;
             int LocY = curStep.Location.Y;
             int NewLocX;
             int NewLocY;
+            List<Step> Steps = new List<Step>();
+            GameBoard TplBoard = curStep.Board.Clone();
+            TplBoard.RemoveShape(LocX, LocY);
+            GameBoard NewBoard = TplBoard.Clone();
+
             foreach (StepOffset offset in Offsets)
             {
                 NewLocX = LocX + offset.X;
@@ -35,7 +38,7 @@ namespace GameLogic.Shapes
                 if (NewBoard.PutShape(TypeShape.Circle, NewLocX, NewLocY) == StepResult.Ok)
                 {
                     Steps.Add(new Step(NewBoard, new ShapeLocation((byte)NewLocX, (byte)NewLocY), StepResult.Ok));
-                    NewBoard = curStep.Board.Clone(); 
+                    NewBoard = TplBoard.Clone(); 
                 }
             }
 
