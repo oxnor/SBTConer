@@ -38,6 +38,8 @@
             this.exit = new System.Windows.Forms.ToolStripMenuItem();
             this.nexStep = new System.Windows.Forms.Button();
             this.boardPanel = new System.Windows.Forms.Panel();
+            this.txtBoard = new System.Windows.Forms.TextBox();
+            this.btnApply = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,10 +112,10 @@
             // 
             // nexStep
             // 
-            this.nexStep.Location = new System.Drawing.Point(0, 870);
-            this.nexStep.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nexStep.Location = new System.Drawing.Point(400, 869);
+            this.nexStep.Margin = new System.Windows.Forms.Padding(4);
             this.nexStep.Name = "nexStep";
-            this.nexStep.Size = new System.Drawing.Size(1856, 28);
+            this.nexStep.Size = new System.Drawing.Size(1456, 29);
             this.nexStep.TabIndex = 1;
             this.nexStep.Text = "Следующий шаг";
             this.nexStep.UseVisualStyleBackColor = true;
@@ -122,21 +124,41 @@
             // boardPanel
             // 
             this.boardPanel.Location = new System.Drawing.Point(0, 34);
-            this.boardPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.boardPanel.Margin = new System.Windows.Forms.Padding(4);
             this.boardPanel.Name = "boardPanel";
             this.boardPanel.Size = new System.Drawing.Size(1856, 828);
             this.boardPanel.TabIndex = 2;
+            // 
+            // txtBoard
+            // 
+            this.txtBoard.Location = new System.Drawing.Point(12, 872);
+            this.txtBoard.Name = "txtBoard";
+            this.txtBoard.Size = new System.Drawing.Size(260, 22);
+            this.txtBoard.TabIndex = 3;
+            this.txtBoard.Text = "BAEBBQECBAIBBQIBBgICBwMC";
+            // 
+            // btnApply
+            // 
+            this.btnApply.Location = new System.Drawing.Point(278, 869);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(115, 29);
+            this.btnApply.TabIndex = 5;
+            this.btnApply.Text = "Применить";
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1856, 902);
+            this.Controls.Add(this.btnApply);
+            this.Controls.Add(this.txtBoard);
             this.Controls.Add(this.boardPanel);
             this.Controls.Add(this.nexStep);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -160,6 +182,9 @@
         private System.Windows.Forms.ToolStripMenuItem exit;
         private System.Windows.Forms.Button nexStep;
         private System.Windows.Forms.Panel boardPanel;
+        private System.Windows.Forms.TextBox txtBoard;
+        private System.Windows.Forms.Button btnApply;
+
         public System.Windows.Forms.Panel BoardPanel
         {
             get

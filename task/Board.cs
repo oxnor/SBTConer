@@ -153,5 +153,15 @@ namespace task
             gameBoard.PutShape(shape, cellX, cellY);
             mainForm.Invalidate();
         }
+
+        public string Serialize()
+        {
+            return Convert.ToBase64String(gameBoard.Serialize());
+        }
+
+        public void Deserialize(string strBoard)
+        {
+            gameBoard.Deserialize(Convert.FromBase64String(strBoard));
+        }
     }
 }

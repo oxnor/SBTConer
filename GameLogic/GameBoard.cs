@@ -85,7 +85,7 @@ namespace GameLogic
             if (binBoard.Length % 3 != 0)
                 throw new Exception("Неверный формат доски");
 
-            int shapeCount = binBoard.Length % 3;
+            int shapeCount = binBoard.Length / 3;
             for (int i = 0; i < shapeCount; i++)
                 fields[binBoard[i * 3 + 1], binBoard[i * 3]] = (TypeShape)binBoard[i * 3 + 2];
         }
