@@ -20,7 +20,7 @@ namespace GameLogic.Shapes
 
         public abstract TypeShape typeShape { get; }
 
-        public abstract TypeShape MinRelationCount { get; }
+        public abstract int MinRelationCount { get; }
 
         public abstract List<Step> GetNextSteps(Step curStep);
 
@@ -47,6 +47,6 @@ namespace GameLogic.Shapes
             return neighbors;
         }
 
-        public abstract bool IsMustDie();
+        public abstract bool IsMustDie(GameBoard board, ShapeLocation curLocation);
     }
 }

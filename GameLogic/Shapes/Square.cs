@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameLogic.Shapes
 {
-    public class Square : IShape
+    public class Square : ShapeBasic
     {
-        public TypeShape typeShape => TypeShape.Square;
+        public override TypeShape typeShape => TypeShape.Square;
+
+        public override int MinRelationCount => 3;
 
         StepOffset[] Offsets = { new StepOffset(-1, -1)
                                , new StepOffset(0, -1)
@@ -28,7 +30,7 @@ namespace GameLogic.Shapes
                                , new StepOffset(-2, 2)
                                };
 
-        public List<Step> GetNextSteps(Step curStep)
+        public override List<Step> GetNextSteps(Step curStep)
         {
             int LocX = curStep.Location.X;
             int LocY = curStep.Location.Y;
@@ -51,6 +53,11 @@ namespace GameLogic.Shapes
             }
 
             return Steps;
+        }
+
+        public override bool IsMustDie(GameBoard board, ShapeLocation curLocation)
+        {
+            return GetNeighbours(board, curLocation).Count < MinRelationCount;
         }
     }
 }

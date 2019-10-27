@@ -10,9 +10,9 @@ namespace GameLogic
     {
         // IFigure(Ga)
         TypeShape typeShape { get; }
-        TypeShape MinRelationCount{ get; }
+        int MinRelationCount{ get; }
         List<Step> GetNextSteps(Step curStep);
         List<ShapeLocation> GetNeighbours(GameBoard board, ShapeLocation curLocation);
-        bool IsMustDie();
+        bool IsMustDie(GameBoard board, ShapeLocation curLocation);
     }
 }
