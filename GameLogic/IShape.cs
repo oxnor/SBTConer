@@ -8,8 +8,11 @@ namespace GameLogic
 {
     public interface IShape
     {
-       // IFigure(Ga)
+        // IFigure(Ga)
         TypeShape typeShape { get; }
+        TypeShape MinRelationCount{ get; }
         List<Step> GetNextSteps(Step curStep);
+        List<ShapeLocation> GetNeighbours(GameBoard board, ShapeLocation curLocation);
+        bool IsMustDie();
     }
 }
