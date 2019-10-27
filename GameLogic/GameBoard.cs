@@ -49,6 +49,7 @@ namespace GameLogic
         {
             return PutShape(TypeShape.Empty, x, y, checkEmpty:false);
         }
+
         public GameBoard Clone()
         {
             GameBoard NewBoard = new GameBoard(countCellWidth, countCellHeight);
@@ -57,6 +58,36 @@ namespace GameLogic
                     NewBoard.fields[i, j] = fields[i, j];
 
             return NewBoard;
+        }
+
+        public byte[] Serialize()
+        {
+            List<byte[]> shapeList = new List<byte[]>();
+            CellVisitor((x, y, shp) =>
+            {
+                if (fields[y, x] != TypeShape.Empty)
+                    shapeList.Add(new byte[3] { (byte)x, (byte)y, (byte)fields[y, x] });
+            });
+
+            byte[] binBoard = new byte[shapeList.Count * 3];
+            for (int i = 0; i< shapeList.Count; i++)
+            {
+                binBoard[i * 3] = shapeList[i][0];
+                binBoard[i * 3 + 1] = shapeList[i][1];
+                binBoard[i * 3 + 2] = shapeList[i][2];
+            }
+
+            return binBoard;
+        }
+
+        public void Deserialize(byte[] binBoard)
+        {
+            if (binBoard.Length % 3 != 0)
+                throw new Exception("Неверный формат доски");
+
+            int shapeCount = binBoard.Length % 3;
+            for (int i = 0; i < shapeCount; i++)
+                fields[binBoard[i * 3 + 1], binBoard[i * 3]] = (TypeShape)binBoard[i * 3 + 2];
         }
     }
 }
