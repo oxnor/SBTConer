@@ -135,7 +135,7 @@
             this.txtBoard.Name = "txtBoard";
             this.txtBoard.Size = new System.Drawing.Size(260, 22);
             this.txtBoard.TabIndex = 3;
-            this.txtBoard.Text = "BAEBBQECBAIBBQIBBgICBwMC";
+            this.txtBoard.Text = "BgIBBwICBgMBBwMB";
             // 
             // btnApply
             // 
