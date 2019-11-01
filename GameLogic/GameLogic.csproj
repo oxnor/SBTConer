@@ -52,7 +52,10 @@
     <Compile Include="Shapes\Triangle.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepOffset.cs" />
+    <Compile Include="StepTree\DecisionNode.cs" />
+    <Compile Include="StepTree\DecisionTree.cs" />
     <Compile Include="Types.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
