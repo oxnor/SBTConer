@@ -140,6 +140,20 @@ namespace GameLogic
             return binBoard;
         }
 
+        public byte[] SerializeAsNextStep()
+        {
+            byte[] curBoard = this.Serialize();
+            byte[] newBoard = new byte[curBoard.Length];
+            curBoard.CopyTo(newBoard, 3);
+
+            int lastOffset = curBoard.Length - 3;
+            newBoard[lastOffset] = curBoard[0];
+            newBoard[lastOffset+1] = curBoard[1];
+            newBoard[lastOffset+2] = curBoard[2];
+
+            return newBoard;
+        }
+
         public void Deserialize(byte[] binBoard)
         {
             for (byte y = 0; y < countCellHeight; y++)
