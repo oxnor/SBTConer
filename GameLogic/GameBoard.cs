@@ -51,7 +51,10 @@ namespace GameLogic
         public StepResult PutShape(TypeShape shape, int x, int y, bool checkEmpty = true)
         {
             if (x >= countCellWidth || y >= countCellHeight || x < 0 || y < 0) return StepResult.Illegal;
-            if (checkEmpty && fields[y, x] != EmptyCell) return StepResult.Illegal;
+            if (checkEmpty && fields[y, x] != EmptyCell && shape!= TypeShape.Empty) return StepResult.Illegal;
+
+            if (shape == TypeShape.Empty)
+                return RemoveShape(x, y);
 
             TypeShape[] newShapes = new TypeShape[Shapes.Length + 1];
             byte newIndex = (byte) (newShapes.Length - 1);
@@ -73,7 +76,19 @@ namespace GameLogic
 
         public StepResult RemoveShape(int x, int y)
         {
-            return PutShape(TypeShape.Empty, x, y, checkEmpty:false);
+            byte shapeIndex = fields[y, x];
+            if (shapeIndex == EmptyCell) return StepResult.Ok;
+
+            TypeShape[] newShapes = new TypeShape[Shapes.Length - 1];
+            int i, ni = 0;
+            for (i = 0; i < Shapes.Length; i++)
+                if (i != shapeIndex)
+                    newShapes[ni++] = Shapes[i];
+
+            Shapes = newShapes;
+            fields[y, x] = EmptyCell;
+
+            return StepResult.Ok;
         }
 
         public GameBoard Clone()
