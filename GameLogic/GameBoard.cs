@@ -91,6 +91,21 @@ namespace GameLogic
             return StepResult.Ok;
         }
 
+        public StepResult MoveShape(int x0, int y0, int x1, int y1)
+        {
+            if ((x0 >= countCellWidth || y0 >= countCellHeight || x0 < 0 || y0 < 0)
+                || (x1 >= countCellWidth || y1 >= countCellHeight || x1 < 0 || y1 < 0)
+               )
+                return StepResult.Illegal;
+
+            if (fields[y1, x1] != EmptyCell) return StepResult.Illegal;
+
+            fields[y1, x1] = fields[y0, x0];
+            fields[y0, x0] = EmptyCell;
+
+            return StepResult.Ok;
+        }
+
         public GameBoard Clone()
         {
             GameBoard newBoard = new GameBoard(countCellWidth, countCellHeight);
