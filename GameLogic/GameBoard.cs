@@ -14,12 +14,16 @@ namespace GameLogic
         private int countCellHeight;
 
         private const byte EmptyCell = 255; // Признак пустой клетки
+        static private byte[] EmptyByteArray = new byte[0];
+        static private TypeShape[] EmptyShapeArray = new TypeShape[0];
 
         // Фигуры в порядке ходов, первая - чей сейчас ход
-        TypeShape[] Shapes;
+        TypeShape[] Shapes = EmptyShapeArray;
 
-        public GameBoard(byte[] binBoard, int _countCellWidth, int _countCellHeight)
+        public GameBoard(int _countCellWidth, int _countCellHeight, byte[] binBoard = null)
         {
+            if (binBoard == null) binBoard = EmptyByteArray;
+
             countCellWidth = _countCellWidth;
             countCellHeight = _countCellHeight;
 
@@ -27,6 +31,7 @@ namespace GameLogic
 
             this.Deserialize(binBoard);
         }
+
 
         public TypeShape this[int y, int x]
         {
@@ -40,15 +45,21 @@ namespace GameLogic
         {
             for (int y = 0; y < countCellHeight; y++)
                 for (int x = 0; x < countCellWidth; x++)
-                    cellVisitorHandler(x, y, Shapes[fields[y, x]]);
+                    cellVisitorHandler(x, y, this[y, x]);
         }
 
         public StepResult PutShape(TypeShape shape, int x, int y, bool checkEmpty = true)
         {
             if (x >= countCellWidth || y >= countCellHeight || x < 0 || y < 0) return StepResult.Illegal;
-            if (checkEmpty && fields[y, x] != TypeShape.Empty) return StepResult.Illegal;
+            if (checkEmpty && fields[y, x] != EmptyCell) return StepResult.Illegal;
 
-            fields[y, x] = shape;
+            TypeShape[] newShapes = new TypeShape[Shapes.Length + 1];
+            byte newIndex = (byte) (newShapes.Length - 1);
+            Shapes.CopyTo(newShapes, 0);
+            newShapes[newIndex] = (TypeShape)shape;
+            fields[y, x] = newIndex;
+            Shapes = newShapes;
+
             return StepResult.Ok;
         }
 
@@ -67,12 +78,16 @@ namespace GameLogic
 
         public GameBoard Clone()
         {
-            GameBoard NewBoard = new GameBoard(countCellWidth, countCellHeight);
-            for (int i = 0; i < countCellHeight; i++)
-                for (int j = 0; j < countCellWidth; j++)
-                    NewBoard.fields[i, j] = fields[i, j];
+            GameBoard newBoard = new GameBoard(countCellWidth, countCellHeight);
+            int x, y;
+            for (y = 0; y < countCellHeight; y++)
+                for (x = 0; x < countCellWidth; x++)
+                    newBoard.fields[y, x] = fields[y, x];
 
-            return NewBoard;
+            newBoard.Shapes = new TypeShape[this.Shapes.Length];
+            this.Shapes.CopyTo(newBoard.Shapes, 0);
+
+            return newBoard;
         }
 
         public byte[] Serialize()
@@ -97,12 +112,14 @@ namespace GameLogic
 
         public void Deserialize(byte[] binBoard)
         {
-            if (binBoard.Length % 3 != 0)
-                throw new Exception("Неверный формат доски");
-
             for (byte y = 0; y < countCellHeight; y++)
                 for (byte x = 0; x < countCellWidth; x++)
                     fields[y, x] = EmptyCell;
+
+            if (binBoard.Length == 0) return;
+
+            if (binBoard.Length % 3 != 0)
+                throw new Exception("Неверный формат доски");
 
             int shapeCount = binBoard.Length / 3;
             Shapes = new TypeShape[shapeCount];
