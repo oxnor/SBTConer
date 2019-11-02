@@ -9,9 +9,10 @@ namespace GameLogic
     public class GameBoard
     {
         // Двумерное игровое поле. Элемент - индекс в массиве Shapes
-        private byte[,] fields; 
+        private byte[,] fields;
         private int countCellWidth;
         private int countCellHeight;
+        private ShapeLocation currentShapeLocation;
 
         private const byte EmptyCell = 255; // Признак пустой клетки
         static private byte[] EmptyByteArray = new byte[0];
@@ -19,6 +20,10 @@ namespace GameLogic
 
         // Фигуры в порядке ходов, первая - чей сейчас ход
         TypeShape[] Shapes = EmptyShapeArray;
+
+        // При удалении текущей фигуры происходит неявная передача хода. 
+        // При формировании позиции следующего хода не нужно делать сдвиг
+        private bool IsNextStepped = false;
 
         public GameBoard(int _countCellWidth, int _countCellHeight, byte[] binBoard = null)
         {
@@ -32,6 +37,15 @@ namespace GameLogic
             this.Deserialize(binBoard);
         }
 
+        public TypeShape CurrentShape
+        {
+            get { return Shapes[0]; }
+        }
+
+        public ShapeLocation CurrentShapeLocation
+        {
+            get { return currentShapeLocation; }
+        }
 
         public TypeShape this[int y, int x]
         {
@@ -58,6 +72,10 @@ namespace GameLogic
 
             TypeShape[] newShapes = new TypeShape[Shapes.Length + 1];
             byte newIndex = (byte) (newShapes.Length - 1);
+
+            if (newIndex == 0)
+                currentShapeLocation = new ShapeLocation(x, y);
+
             Shapes.CopyTo(newShapes, 0);
             newShapes[newIndex] = (TypeShape)shape;
             fields[y, x] = newIndex;
@@ -76,32 +94,48 @@ namespace GameLogic
 
         public StepResult RemoveShape(int x, int y)
         {
-            byte shapeIndex = fields[y, x];
-            if (shapeIndex == EmptyCell) return StepResult.Ok;
+            byte removedShapeIndex = fields[y, x];
+            if (removedShapeIndex == EmptyCell) return StepResult.Ok;
+
+            if (removedShapeIndex == 0)
+                IsNextStepped = true;
 
             TypeShape[] newShapes = new TypeShape[Shapes.Length - 1];
             int i, ni = 0;
             for (i = 0; i < Shapes.Length; i++)
-                if (i != shapeIndex)
+                if (i != removedShapeIndex)
                     newShapes[ni++] = Shapes[i];
 
             Shapes = newShapes;
             fields[y, x] = EmptyCell;
 
+            for (y = 0; y < countCellHeight; y++)
+                for (x = 0; x < countCellWidth; x++)
+                {
+                    ni = fields[x, y];
+                    if (ni != EmptyCell)
+                    {
+                        if (ni > removedShapeIndex) fields[x, y]--;
+
+                        // Если удалили текущую фигуру
+                        if (removedShapeIndex == 0 && ni == 1)
+                            currentShapeLocation = new ShapeLocation(x, y);
+                    }
+                }
+
             return StepResult.Ok;
         }
 
-        public StepResult MoveShape(int x0, int y0, int x1, int y1)
+        public StepResult MoveShape(int x, int y)
         {
-            if ((x0 >= countCellWidth || y0 >= countCellHeight || x0 < 0 || y0 < 0)
-                || (x1 >= countCellWidth || y1 >= countCellHeight || x1 < 0 || y1 < 0)
-               )
+            if (x >= countCellWidth || y >= countCellHeight || x < 0 || y < 0)
                 return StepResult.Illegal;
 
-            if (fields[y1, x1] != EmptyCell) return StepResult.Illegal;
+            if (fields[y, x] != EmptyCell) return StepResult.Illegal;
 
-            fields[y1, x1] = fields[y0, x0];
-            fields[y0, x0] = EmptyCell;
+            fields[y, x] = 0;
+            fields[currentShapeLocation.X, currentShapeLocation.Y] = EmptyCell;
+            currentShapeLocation = new ShapeLocation(x, y);
 
             return StepResult.Ok;
         }
@@ -116,6 +150,7 @@ namespace GameLogic
 
             newBoard.Shapes = new TypeShape[this.Shapes.Length];
             this.Shapes.CopyTo(newBoard.Shapes, 0);
+            newBoard.currentShapeLocation = new ShapeLocation(currentShapeLocation.X, currentShapeLocation.Y);
 
             return newBoard;
         }
@@ -146,6 +181,10 @@ namespace GameLogic
             byte[] newBoard = new byte[curBoard.Length];
             curBoard.CopyTo(newBoard, 3);
 
+            // Если была неявная передача хода, то сдвиг не нужен
+            if (IsNextStepped)
+                return newBoard;
+
             int lastOffset = curBoard.Length - 3;
             newBoard[lastOffset] = curBoard[0];
             newBoard[lastOffset+1] = curBoard[1];
@@ -172,6 +211,8 @@ namespace GameLogic
                 Shapes[i] = (TypeShape)binBoard[i * 3 + 2];
                 fields[binBoard[i * 3 + 1], binBoard[i * 3]] = i;
             }
+
+            currentShapeLocation = new ShapeLocation(binBoard[0], binBoard[1]);
         }
     }
 }

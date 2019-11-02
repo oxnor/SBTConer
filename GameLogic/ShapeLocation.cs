@@ -14,7 +14,13 @@ namespace GameLogic
             Y = y;
         }
 
-        public byte X { set; get; }
-        public byte Y { set; get; }
+        public ShapeLocation(int x, int y)
+        {
+            X = (byte)x;
+            Y = (byte)y;
+        }
+
+        public byte X { get; }
+        public byte Y { get; }
     }
 }

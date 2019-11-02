@@ -43,7 +43,7 @@ namespace GameLogic.Shapes
                 NewLocY = LocY + offset.Y;
                 if (NewBoard.PutShape(TypeShape.Circle, NewLocX, NewLocY) == StepResult.Ok)
                 {
-                    Steps.Add(new Step(NewBoard, new ShapeLocation((byte)NewLocX, (byte)NewLocY), StepResult.Ok));
+                    Steps.Add(new Step(NewBoard, new ShapeLocation(NewLocX, NewLocY), StepResult.Ok));
                     NewBoard = TplBoard.Clone();
                 }
             }

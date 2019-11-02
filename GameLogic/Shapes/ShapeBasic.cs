@@ -39,7 +39,7 @@ namespace GameLogic.Shapes
                 {
                     neighborShape = board.GetShape(NewLocX, NewLocY);
                     if (neighborShape != TypeShape.Empty)
-                        neighbors.Add(new ShapeLocation((byte)NewLocX, (byte)NewLocY));
+                        neighbors.Add(new ShapeLocation(NewLocX, NewLocY));
                 }
                 catch { };
             }
