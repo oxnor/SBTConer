@@ -40,6 +40,7 @@
             this.boardPanel = new System.Windows.Forms.Panel();
             this.txtBoard = new System.Windows.Forms.TextBox();
             this.btnApply = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -131,11 +132,11 @@
             // 
             // txtBoard
             // 
-            this.txtBoard.Location = new System.Drawing.Point(12, 872);
+            this.txtBoard.Location = new System.Drawing.Point(58, 872);
             this.txtBoard.Name = "txtBoard";
-            this.txtBoard.Size = new System.Drawing.Size(260, 22);
+            this.txtBoard.Size = new System.Drawing.Size(214, 22);
             this.txtBoard.TabIndex = 3;
-            this.txtBoard.Text = "BgIBBwICBgMBBwMB";
+            this.txtBoard.Text = "AQABAAEB";
             // 
             // btnApply
             // 
@@ -147,11 +148,22 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(7, 869);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(45, 27);
+            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Text = "R";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1856, 902);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.txtBoard);
             this.Controls.Add(this.boardPanel);
@@ -184,6 +196,7 @@
         private System.Windows.Forms.Panel boardPanel;
         private System.Windows.Forms.TextBox txtBoard;
         private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.Button btnRefresh;
 
         public System.Windows.Forms.Panel BoardPanel
         {

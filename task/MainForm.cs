@@ -87,12 +87,17 @@ namespace task
         private void NexStep_Click(object sender, EventArgs e)
         {
             this.EndListeningMouse();
-            txtBoard.Text = board.Serialize();
+            board.MakeStep();
         }
 
         private void btnApply_Click(object sender, EventArgs e)
         {
             board.Deserialize(txtBoard.Text);
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            txtBoard.Text = board.Serialize();
         }
     }
 

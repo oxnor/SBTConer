@@ -112,10 +112,10 @@ namespace GameLogic
             for (y = 0; y < countCellHeight; y++)
                 for (x = 0; x < countCellWidth; x++)
                 {
-                    ni = fields[x, y];
+                    ni = fields[y, x];
                     if (ni != EmptyCell)
                     {
-                        if (ni > removedShapeIndex) fields[x, y]--;
+                        if (ni > removedShapeIndex) fields[y, x]--;
 
                         // Если удалили текущую фигуру
                         if (removedShapeIndex == 0 && ni == 1)
@@ -133,25 +133,35 @@ namespace GameLogic
 
             if (fields[y, x] != EmptyCell) return StepResult.Illegal;
 
-            fields[y, x] = (byte)(Shapes.Length - 1);
-            fields[currentShapeLocation.X, currentShapeLocation.Y] = EmptyCell;
-            currentShapeLocation = new ShapeLocation(x, y);
+            ShapeLocation locCur = currentShapeLocation;
 
+            fields[y, x] = (byte)(Shapes.Length - 1);
+            fields[currentShapeLocation.Y, currentShapeLocation.X] = EmptyCell;
+           
             TypeShape curShape = Shapes[0];
 
             int i;
-            for (i = 0; i < Shapes.Length - 2; i++)
+            for (i = 0; i <= Shapes.Length - 2; i++)
                 Shapes[i] = Shapes[i + 1];
 
             Shapes[Shapes.Length - 1] = curShape;
 
-            for (y = 0; y < countCellHeight; y++)
-                for (x = 0; x < countCellWidth; x++)
+            int x1, y1;
+            for (y1 = 0; y1 < countCellHeight; y1++)
+                for (x1 = 0; x1 < countCellWidth; x1++)
                 {
-                    i = fields[x, y];
+                    i = fields[y1, x1];
                     if (i != EmptyCell)
                     {
-                        if (i < Shapes.Length - 1) fields[x, y]--;
+                        if (i <= Shapes.Length - 1 && !(y == y1 && x == x1))
+                        {
+                            fields[y1, x1]--;
+
+                            if (i == 1)
+                                currentShapeLocation = new ShapeLocation(x1, y1);
+                        }
+
+
                     }
                 }
 
@@ -215,11 +225,11 @@ namespace GameLogic
             currentShapeLocation = new ShapeLocation(binBoard[0], binBoard[1]);
         }
 
-        public double Score(ShapeLocation currentLocation)
+        public double Score(ShapeLocation location)
         {
-            double dx = countCellWidth - 1 - currentShapeLocation.X;
-            double dy = countCellHeight - 1 - currentShapeLocation.Y;
-            double maxd = Math.Sqrt(countCellWidth * countCellWidth + countCellHeight + countCellHeight);
+            double dx = countCellWidth - 1 - location.X;
+            double dy = countCellHeight - 1 - location.Y;
+            double maxd = Math.Sqrt((countCellWidth-1) * (countCellWidth-1) + (countCellHeight-1) * (countCellHeight-1));
             return (maxd - Math.Sqrt(dx * dx + dy * dy));
         }
     }

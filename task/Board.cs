@@ -23,6 +23,7 @@ namespace task
         private const int defaultCountCellHeight = 12;
 
         GameBoard gameBoard;
+        Engine gameEngine = new Engine();
         
 
         public Board(MainForm _mainForm, int _countCellWidth, int _countCellHeight)
@@ -162,6 +163,12 @@ namespace task
         public void Deserialize(string strBoard)
         {
             gameBoard.Deserialize(Convert.FromBase64String(strBoard));
+        }
+
+        public void MakeStep()
+        {
+            gameBoard = gameEngine.GetNextPosition(gameBoard);
+            DrawBoard();
         }
     }
 }
