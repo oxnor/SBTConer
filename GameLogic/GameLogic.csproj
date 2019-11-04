@@ -48,6 +48,8 @@
     <Compile Include="ShapeLocation.cs" />
     <Compile Include="Shapes\Circle.cs" />
     <Compile Include="Shapes\ShapeBasic.cs" />
+    <Compile Include="Shapes\Square.cs" />
+    <Compile Include="Shapes\Triangle.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepOffset.cs" />
     <Compile Include="StepTree\DecisionNode.cs" />

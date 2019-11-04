@@ -18,6 +18,12 @@ namespace GameLogic
 
             shape = new Circle();
             ShapeSet.Add(shape.typeShape, shape);
+
+            shape = new Square();
+            ShapeSet.Add(shape.typeShape, shape);
+
+            shape = new Triangle();
+            ShapeSet.Add(shape.typeShape, shape);
         }
 
         public GameBoard GetNextPosition(GameBoard curBoard)

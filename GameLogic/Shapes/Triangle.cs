@@ -34,21 +34,22 @@ namespace GameLogic.Shapes
             int NewLocY;
             List<Step> Steps = new List<Step>();
             GameBoard newBoard = curStep.Board.Clone();
-
+            ShapeLocation newLocation;
             foreach (StepOffset offset in Offsets)
             {
                 NewLocX = LocX + offset.X;
                 NewLocY = LocY + offset.Y;
                 if (newBoard.MoveShape(NewLocX, NewLocY) == StepResult.Ok)
                 {
-                    if (IsMustDie(newBoard, new ShapeLocation(NewLocX, NewLocY)))
+                    newLocation = new ShapeLocation(NewLocX, NewLocY);
+                    if (IsMustDie(newBoard, newLocation))
                     {
                         newBoard.RemoveShape(NewLocX, NewLocY);
-                        Steps.Add(new Step(newBoard, StepResult.Die));
+                        Steps.Add(new Step(newBoard, StepResult.Die, double.MinValue));
                     }
                     else
                     {
-                        Steps.Add(new Step(newBoard, StepResult.Ok));
+                        Steps.Add(new Step(newBoard, StepResult.Ok, newBoard.Score(newLocation)));
                     }
 
                     newBoard = curStep.Board.Clone();
