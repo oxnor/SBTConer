@@ -15,7 +15,7 @@ namespace GameLogic
             Score = score;
         }
 
-        double Score { get; }
+        public double Score { get; }
         public GameBoard Board { get; }
         public StepResult Result { get; }
     }
