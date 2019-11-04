@@ -214,5 +214,13 @@ namespace GameLogic
 
             currentShapeLocation = new ShapeLocation(binBoard[0], binBoard[1]);
         }
+
+        public int Score(ShapeLocation currentLocation)
+        {
+            double dx = countCellWidth - 1 - currentShapeLocation.X;
+            double dy = countCellHeight - 1 - currentShapeLocation.Y;
+            double maxd = Math.Sqrt(countCellWidth * countCellWidth + countCellHeight + countCellHeight);
+            return (int)(maxd - Math.Sqrt(dx * dx + dy * dy));
+        }
     }
 }
