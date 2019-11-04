@@ -20,7 +20,7 @@ namespace task
             //GameBoard board = new GameBoard(3, 3);
             //board.PutShape(TypeShape.Circle, 0, 1);
             //board.PutShape(TypeShape.Circle, 0, 0);
-            //Step step = new Step(board, StepResult.Ok);
+            //Step step = new Step(board, StepResult.Ok, 0);
             //IShape Circle = new GameLogic.Shapes.Circle();
             //List<Step> Steps = Circle.GetNextSteps(step);
             //Assert.AreEqual(8, Steps.Count);
