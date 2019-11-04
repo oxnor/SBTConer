@@ -16,7 +16,7 @@ namespace GameLogicTests
         {
             GameBoard board = new GameBoard(3, 3);
             board.PutShape(TypeShape.Circle, 1, 1);
-            Step step = new Step(board, new ShapeLocation(1, 1), StepResult.Ok);
+            Step step = new Step(board,  StepResult.Ok);
             IShape Circle = new Circle();
             List<Step> Steps = Circle.GetNextSteps(step);
             Assert.AreEqual(8, Steps.Count);
