@@ -133,9 +133,27 @@ namespace GameLogic
 
             if (fields[y, x] != EmptyCell) return StepResult.Illegal;
 
-            fields[y, x] = 0;
+            fields[y, x] = (byte)(Shapes.Length - 1);
             fields[currentShapeLocation.X, currentShapeLocation.Y] = EmptyCell;
             currentShapeLocation = new ShapeLocation(x, y);
+
+            TypeShape curShape = Shapes[0];
+
+            int i;
+            for (i = 0; i < Shapes.Length - 2; i++)
+                Shapes[i] = Shapes[i + 1];
+
+            Shapes[Shapes.Length - 1] = curShape;
+
+            for (y = 0; y < countCellHeight; y++)
+                for (x = 0; x < countCellWidth; x++)
+                {
+                    i = fields[x, y];
+                    if (i != EmptyCell)
+                    {
+                        if (i < Shapes.Length - 1) fields[x, y]--;
+                    }
+                }
 
             return StepResult.Ok;
         }
@@ -173,24 +191,6 @@ namespace GameLogic
                 }
 
             return binBoard;
-        }
-
-        public byte[] SerializeAsNextStep()
-        {
-            byte[] curBoard = this.Serialize();
-            byte[] newBoard = new byte[curBoard.Length];
-            curBoard.CopyTo(newBoard, 3);
-
-            // Если была неявная передача хода, то сдвиг не нужен
-            if (IsNextStepped)
-                return newBoard;
-
-            int lastOffset = curBoard.Length - 3;
-            newBoard[lastOffset] = curBoard[0];
-            newBoard[lastOffset+1] = curBoard[1];
-            newBoard[lastOffset+2] = curBoard[2];
-
-            return newBoard;
         }
 
         public void Deserialize(byte[] binBoard)
