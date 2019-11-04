@@ -45,7 +45,16 @@ namespace GameLogic.Shapes
                 NewLocY = LocY + offset.Y;
                 if (newBoard.MoveShape(NewLocX, NewLocY) == StepResult.Ok)
                 {
-                    Steps.Add(new Step(newBoard, StepResult.Ok));
+                    if (IsMustDie(newBoard, new ShapeLocation(NewLocX, NewLocY)))
+                    {
+                        newBoard.RemoveShape(NewLocX, NewLocY);
+                        Steps.Add(new Step(newBoard, StepResult.Die));
+                    }
+                    else
+                    {
+                        Steps.Add(new Step(newBoard, StepResult.Ok));
+                    }
+
                     newBoard = curStep.Board.Clone();
                 }
             }

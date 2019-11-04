@@ -24,23 +24,30 @@ namespace GameLogic.Shapes
 
         public override List<Step> GetNextSteps(Step curStep)
         {
-            int LocX = curStep.Location.X;
-            int LocY = curStep.Location.Y;
+            int LocX = curStep.Board.CurrentShapeLocation.X;
+            int LocY = curStep.Board.CurrentShapeLocation.Y;
             int NewLocX;
             int NewLocY;
             List<Step> Steps = new List<Step>();
-            GameBoard TplBoard = curStep.Board.Clone();
-            TplBoard.RemoveShape(LocX, LocY);
-            GameBoard NewBoard = TplBoard.Clone();
+            GameBoard newBoard = curStep.Board.Clone();
 
             foreach (StepOffset offset in Offsets)
             {
                 NewLocX = LocX + offset.X;
                 NewLocY = LocY + offset.Y;
-                if (NewBoard.PutShape(TypeShape.Circle, NewLocX, NewLocY) == StepResult.Ok)
+                if (newBoard.MoveShape(NewLocX, NewLocY) == StepResult.Ok)
                 {
-                    Steps.Add(new Step(NewBoard, new ShapeLocation(NewLocX, NewLocY), StepResult.Ok));
-                    NewBoard = TplBoard.Clone(); 
+                    if (IsMustDie(newBoard, new ShapeLocation(NewLocX, NewLocY)))
+                    {
+                        newBoard.RemoveShape(NewLocX, NewLocY);
+                        Steps.Add(new Step(newBoard, StepResult.Die));
+                    }
+                    else
+                    {
+                        Steps.Add(new Step(newBoard, StepResult.Ok));
+                    }
+
+                    newBoard = curStep.Board.Clone();
                 }
             }
 
