@@ -37,11 +37,13 @@
             this.addSquare = new System.Windows.Forms.ToolStripMenuItem();
             this.exit = new System.Windows.Forms.ToolStripMenuItem();
             this.nexStep = new System.Windows.Forms.Button();
-            this.boardPanel = new System.Windows.Forms.Panel();
             this.txtBoard = new System.Windows.Forms.TextBox();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.board = new task.BoardControl();
+            this.pnlBottom = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
+            this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -113,7 +115,7 @@
             // 
             // nexStep
             // 
-            this.nexStep.Location = new System.Drawing.Point(400, 869);
+            this.nexStep.Location = new System.Drawing.Point(398, 15);
             this.nexStep.Margin = new System.Windows.Forms.Padding(4);
             this.nexStep.Name = "nexStep";
             this.nexStep.Size = new System.Drawing.Size(1456, 29);
@@ -122,17 +124,9 @@
             this.nexStep.UseVisualStyleBackColor = true;
             this.nexStep.Click += new System.EventHandler(this.NexStep_Click);
             // 
-            // boardPanel
-            // 
-            this.boardPanel.Location = new System.Drawing.Point(0, 34);
-            this.boardPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.boardPanel.Name = "boardPanel";
-            this.boardPanel.Size = new System.Drawing.Size(1856, 828);
-            this.boardPanel.TabIndex = 2;
-            // 
             // txtBoard
             // 
-            this.txtBoard.Location = new System.Drawing.Point(58, 872);
+            this.txtBoard.Location = new System.Drawing.Point(56, 18);
             this.txtBoard.Name = "txtBoard";
             this.txtBoard.Size = new System.Drawing.Size(214, 22);
             this.txtBoard.TabIndex = 3;
@@ -140,7 +134,7 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(278, 869);
+            this.btnApply.Location = new System.Drawing.Point(276, 15);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(115, 29);
             this.btnApply.TabIndex = 5;
@@ -150,7 +144,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(7, 869);
+            this.btnRefresh.Location = new System.Drawing.Point(5, 15);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(45, 27);
             this.btnRefresh.TabIndex = 6;
@@ -158,17 +152,34 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // board
+            // 
+            this.board.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.board.Location = new System.Drawing.Point(0, 28);
+            this.board.Name = "board";
+            this.board.Size = new System.Drawing.Size(1856, 818);
+            this.board.TabIndex = 7;
+            // 
+            // pnlBottom
+            // 
+            this.pnlBottom.Controls.Add(this.btnRefresh);
+            this.pnlBottom.Controls.Add(this.nexStep);
+            this.pnlBottom.Controls.Add(this.txtBoard);
+            this.pnlBottom.Controls.Add(this.btnApply);
+            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlBottom.Location = new System.Drawing.Point(0, 846);
+            this.pnlBottom.Name = "pnlBottom";
+            this.pnlBottom.Size = new System.Drawing.Size(1856, 56);
+            this.pnlBottom.TabIndex = 8;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1856, 902);
-            this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.txtBoard);
-            this.Controls.Add(this.boardPanel);
-            this.Controls.Add(this.nexStep);
+            this.Controls.Add(this.board);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.pnlBottom);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
@@ -177,6 +188,8 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.pnlBottom.ResumeLayout(false);
+            this.pnlBottom.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,18 +206,11 @@
         private System.Windows.Forms.ToolStripMenuItem addSquare;
         private System.Windows.Forms.ToolStripMenuItem exit;
         private System.Windows.Forms.Button nexStep;
-        private System.Windows.Forms.Panel boardPanel;
         private System.Windows.Forms.TextBox txtBoard;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Button btnRefresh;
-
-        public System.Windows.Forms.Panel BoardPanel
-        {
-            get
-            {
-                return this.boardPanel;
-            }
-        }
+        private BoardControl board;
+        private System.Windows.Forms.Panel pnlBottom;
     }
 }
 

@@ -8,12 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 
 using GameLogic;
+using NLog;
 
 namespace task
 {
     public partial class MainForm : Form , IMainForm
     {
-        Board board;
+        static Logger _logger = LogManager.GetCurrentClassLogger();
+
         private TypeShape currentShapeForAdd;
        
         public MainForm()
@@ -26,6 +28,7 @@ namespace task
             this.UpdateStyles();
             this.currentShapeForAdd = TypeShape.Empty;
             this.CreateNewBoard(0, 0);
+            _logger.Info("Конструктор главной формы");
         }
 
         private void Exit_Click(object sender, EventArgs e)
@@ -40,15 +43,15 @@ namespace task
         }
 
         public void CreateNewBoard(int width, int height)
-        {
-            this.boardPanel.CreateGraphics().Clear(this.boardPanel.BackColor);
-            this.board = new Board(this, width, height);
+        { 
+            //this.boardPanel.CreateGraphics().Clear(this.boardPanel.BackColor);
+            this.board.Init(width, height);
             this.EndListeningMouse();
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            if (this.board != null) this.board.DrawBoard();
+            _logger.Trace("MainForm_Paint");
         }
 
         private void AddCircle_Click(object sender, EventArgs e)
@@ -69,13 +72,13 @@ namespace task
         private void StartListeningMouse(TypeShape typeShapeForAdd)
         {
             this.currentShapeForAdd = typeShapeForAdd;
-            this.boardPanel.MouseClick += new MouseEventHandler(BoardPanel_MouseClick);
+            this.board.MouseClick += new MouseEventHandler(BoardPanel_MouseClick);
         }
 
         private void EndListeningMouse()
         {
             this.currentShapeForAdd = TypeShape.Empty;
-            this.boardPanel.MouseClick -= new MouseEventHandler(BoardPanel_MouseClick);
+            this.board.MouseClick -= new MouseEventHandler(BoardPanel_MouseClick);
         }
 
         private void BoardPanel_MouseClick(object sender, MouseEventArgs e)
@@ -88,6 +91,7 @@ namespace task
         {
             this.EndListeningMouse();
             board.MakeStep();
+            board.Invalidate();
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -98,6 +102,12 @@ namespace task
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             txtBoard.Text = board.Serialize();
+        }
+
+        private void boardPanel_Paint(object sender, PaintEventArgs e)
+        {
+            _logger.Trace("boardPanel_Paint");
+            if (this.board != null) this.board.DrawBoard(e.Graphics);
         }
     }
 

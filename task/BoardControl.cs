@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using GameLogic;
 using NLog;
 
 namespace task
 {
-    class Board
+    public partial class BoardControl : UserControl
     {
-        private MainForm mainForm;
-        private Graphics graphics;
         private Pen penBlack;
         private int cellSize;
         private int shapeSize;
@@ -28,14 +30,20 @@ namespace task
 
         static Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public Board(MainForm _mainForm, int _countCellWidth, int _countCellHeight)
+        public BoardControl()
         {
-            this.mainForm = _mainForm;
-            this.countCellWidth = _countCellWidth==0 ? Board.defaultCountCellWidth : _countCellWidth;
-            this.countCellHeight = _countCellHeight == 0 ? Board.defaultCountCellHeight : _countCellHeight;
-            
+            InitializeComponent();
+
+            Init(defaultCountCellWidth, defaultCountCellHeight);
+        }
+
+        public void Init(int _countCellWidth, int _countCellHeight)
+        {
+            this.countCellWidth = _countCellWidth == 0 ? defaultCountCellWidth : _countCellWidth;
+            this.countCellHeight = _countCellHeight == 0 ? defaultCountCellHeight : _countCellHeight;
+
             this.CalculateSize();
-            
+
             this.InitializeGraphics();
 
             gameBoard = new GameBoard(countCellWidth, countCellHeight);
@@ -43,23 +51,24 @@ namespace task
 
         private void InitializeGraphics()
         {
-            //this.graphics = this.mainForm.BoardPanel.CreateGraphics();
             this.penBlack = new Pen(Color.Black);
             this.penBlack.Width = 1;
         }
 
-        public void DrawBoard(Graphics _graphics)
+
+
+        public void DrawBoard(Graphics graphics)
         {
             _logger.Trace("DrawBoard");
             int i;
             int j;
             int currentY = 0;
-            this.graphics = _graphics;
-            this.graphics.FillRectangle(SystemBrushes.Control, new Rectangle(0, 0, this.boardSizeWidth, this.boardSizeHeight));
+
+            graphics.FillRectangle(SystemBrushes.Control, new Rectangle(0, 0, this.boardSizeWidth, this.boardSizeHeight));
 
             for (i = 0; i <= countCellHeight; i++)
             {
-                this.graphics.DrawLine(penBlack, 0, currentY, this.boardSizeWidth, currentY);
+                graphics.DrawLine(penBlack, 0, currentY, this.boardSizeWidth, currentY);
                 currentY += this.cellSize;
             }
 
@@ -67,7 +76,7 @@ namespace task
 
             for (i = 0; i <= countCellWidth; i++)
             {
-                this.graphics.DrawLine(penBlack, currentX, 0, currentX, this.boardSizeHeight);
+                graphics.DrawLine(penBlack, currentX, 0, currentX, this.boardSizeHeight);
                 currentX += this.cellSize;
             }
 
@@ -82,17 +91,17 @@ namespace task
                     {
                         case TypeShape.Circle:
                             {
-                                this.AddCircle(x, y);
+                                this.AddCircle(graphics, x, y);
                                 break;
                             }
                         case TypeShape.Triangle:
                             {
-                                this.AddTriangle(x, y);
+                                this.AddTriangle(graphics, x, y);
                                 break;
                             }
                         case TypeShape.Square:
                             {
-                                this.AddSquare(x, y);
+                                this.AddSquare(graphics, x, y);
                                 break;
                             }
                     }
@@ -100,13 +109,13 @@ namespace task
             });
         }
 
-        public void AddCircle(int x, int y)
+        public void AddCircle(Graphics graphics, int x, int y)
         {
-            this.graphics.FillEllipse(Brushes.Chocolate, x - this.halfShapeSize, 
+            graphics.FillEllipse(Brushes.Chocolate, x - this.halfShapeSize,
                 y - this.halfShapeSize, this.shapeSize, this.shapeSize);
         }
 
-        public void AddTriangle(int x, int y)
+        public void AddTriangle(Graphics graphics, int x, int y)
         {
             Point[] pointsOfTriangle = new Point[]
             {
@@ -114,20 +123,20 @@ namespace task
                 new Point(x,y-this.halfShapeSize),
                 new Point(x+this.halfShapeSize,y+this.halfShapeSize),
             };
-            
-            this.graphics.FillPolygon(Brushes.Blue, pointsOfTriangle);
+
+            graphics.FillPolygon(Brushes.Blue, pointsOfTriangle);
         }
 
-        public void AddSquare(int x, int y)
+        public void AddSquare(Graphics graphics, int x, int y)
         {
-            this.graphics.FillRectangle(Brushes.Green, x - this.halfShapeSize,
+            graphics.FillRectangle(Brushes.Green, x - this.halfShapeSize,
                 y - this.halfShapeSize, this.shapeSize, this.shapeSize);
         }
 
         private void CalculateSize()
         {
-            int cellSizeWidth = this.mainForm.BoardPanel.Width / this.countCellWidth;
-            int cellSizeHeight = this.mainForm.BoardPanel.Height / countCellHeight;
+            int cellSizeWidth = this.Width / this.countCellWidth;
+            int cellSizeHeight = this.Height / countCellHeight;
             this.cellSize = cellSizeWidth < cellSizeHeight ? cellSizeWidth : cellSizeHeight;
             this.shapeSize = this.cellSize / 2;
             this.halfShapeSize = this.shapeSize / 2;
@@ -155,7 +164,6 @@ namespace task
             this.CoordsToCell(x, y, ref cellX, ref cellY);
             if (cellX >= countCellWidth || cellY >= countCellHeight) return;
             gameBoard.PutShape(shape, cellX, cellY);
-            mainForm.Invalidate();
         }
 
         public string Serialize()
@@ -171,6 +179,11 @@ namespace task
         public void MakeStep()
         {
             gameBoard = gameEngine.GetNextPosition(gameBoard);
+        }
+
+        private void BoardControl_Paint(object sender, PaintEventArgs e)
+        {
+            DrawBoard(e.Graphics);
         }
     }
 }
