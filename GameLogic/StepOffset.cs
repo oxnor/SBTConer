@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    class StepOffset
+    public class StepOffset
     {
         public StepOffset(int x, int y)
         {
