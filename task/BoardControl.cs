@@ -47,6 +47,7 @@ namespace task
             this.InitializeGraphics();
 
             gameBoard = new GameBoard(countCellWidth, countCellHeight);
+            this.Invalidate();
         }
 
         private void InitializeGraphics()
@@ -164,21 +165,25 @@ namespace task
             this.CoordsToCell(x, y, ref cellX, ref cellY);
             if (cellX >= countCellWidth || cellY >= countCellHeight) return;
             gameBoard.PutShape(shape, cellX, cellY);
+            this.Invalidate();
         }
 
         public string Serialize()
         {
             return Convert.ToBase64String(gameBoard.Serialize());
+            this.Invalidate();
         }
 
         public void Deserialize(string strBoard)
         {
             gameBoard.Deserialize(Convert.FromBase64String(strBoard));
+            this.Invalidate();
         }
 
         public void MakeStep()
         {
             gameBoard = gameEngine.GetNextPosition(gameBoard);
+            this.Invalidate();
         }
 
         private void BoardControl_Paint(object sender, PaintEventArgs e)

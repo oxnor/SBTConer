@@ -91,7 +91,6 @@ namespace task
         {
             this.EndListeningMouse();
             board.MakeStep();
-            board.Invalidate();
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -104,11 +103,6 @@ namespace task
             txtBoard.Text = board.Serialize();
         }
 
-        private void boardPanel_Paint(object sender, PaintEventArgs e)
-        {
-            _logger.Trace("boardPanel_Paint");
-            if (this.board != null) this.board.DrawBoard(e.Graphics);
-        }
     }
 
 
