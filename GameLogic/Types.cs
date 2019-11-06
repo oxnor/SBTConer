@@ -20,7 +20,7 @@ namespace GameLogic
         Illegal,
     }
 
-    public delegate void CellVisitorHandler(int x, int y, TypeShape shape);
+    public delegate void CellVisitorHandler(int x, int y, TypeShape shape, byte index);
 
 
 }

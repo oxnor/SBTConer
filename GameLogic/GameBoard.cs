@@ -69,7 +69,7 @@ namespace GameLogic
         {
             for (int y = 0; y < countCellHeight; y++)
                 for (int x = 0; x < countCellWidth; x++)
-                    cellVisitorHandler(x, y, this[y, x]);
+                    cellVisitorHandler(x, y, this[y, x], fields[y, x]);
         }
 
         public StepResult PutShape(TypeShape shape, int x, int y, bool checkEmpty = true)

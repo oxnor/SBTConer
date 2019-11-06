@@ -86,7 +86,7 @@ namespace task
                 currentX += this.cellSize;
             }
 
-            gameBoard.CellVisitor((cellX, cellY, curShape) =>
+            gameBoard.CellVisitor((cellX, cellY, curShape, index) =>
             {
                 if (curShape != TypeShape.Empty)
                 {
@@ -112,16 +112,11 @@ namespace task
                             }
                     }
 
-                    int nx = 0, ny = 0;
-                    foreach (ShapeLocation neighbourLocation in gameBoard.GetNeighbours(new ShapeLocation(cellX, cellY)))
-                    {
-                        this.CellToCoords(neighbourLocation.X, neighbourLocation.Y, ref nx, ref ny);
-                        graphics.DrawLine(penRelation, x, y, nx, ny);
-                    }
+                    graphics.DrawString(index.ToString(), DefaultFont, Brushes.Azure,x, y);
                 }
             });
 
-            gameBoard.CellVisitor((cellX, cellY, curShape) =>
+            gameBoard.CellVisitor((cellX, cellY, curShape, index) =>
             {
                 if (curShape != TypeShape.Empty)
                 {
