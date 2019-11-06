@@ -60,32 +60,9 @@ namespace GameLogic.Shapes
             return Steps;
         }
 
-        public virtual List<ShapeLocation> GetNeighbours(GameBoard board, ShapeLocation curLocation)
-        {
-            List<ShapeLocation> neighbors = new List<ShapeLocation>();
-
-            int NewLocX;
-            int NewLocY;
-            TypeShape neighborShape;
-            foreach (StepOffset offset in neighborOffsets)
-            {
-                NewLocX = curLocation.X + offset.X;
-                NewLocY = curLocation.Y + offset.Y;
-                try
-                {
-                    neighborShape = board.GetShape(NewLocX, NewLocY);
-                    if (neighborShape != TypeShape.Empty)
-                        neighbors.Add(new ShapeLocation(NewLocX, NewLocY));
-                }
-                catch { };
-            }
-
-            return neighbors;
-        }
-
         public virtual bool IsMustDie(GameBoard board, ShapeLocation curLocation)
         {
-            return GetNeighbours(board, curLocation).Count < MinRelationCount;
+            return board.GetNeighbours(curLocation).Count < MinRelationCount;
         }
     }
 }

@@ -25,6 +25,16 @@ namespace GameLogic
         // При формировании позиции следующего хода не нужно делать сдвиг
         private bool IsNextStepped = false;
 
+        StepOffset[] neighborOffsets = { new StepOffset(-1, -1)
+                               , new StepOffset(0, -1)
+                               , new StepOffset(1, -1)
+                               , new StepOffset(-1, 0)
+                               , new StepOffset(1, 0)
+                               , new StepOffset(-1, 1)
+                               , new StepOffset(0, 1)
+                               , new StepOffset(1, 1)
+                               };
+
         public GameBoard(int _countCellWidth, int _countCellHeight, byte[] binBoard = null)
         {
             if (binBoard == null) binBoard = EmptyByteArray;
@@ -65,13 +75,13 @@ namespace GameLogic
         public StepResult PutShape(TypeShape shape, int x, int y, bool checkEmpty = true)
         {
             if (x >= countCellWidth || y >= countCellHeight || x < 0 || y < 0) return StepResult.Illegal;
-            if (checkEmpty && fields[y, x] != EmptyCell && shape!= TypeShape.Empty) return StepResult.Illegal;
+            if (checkEmpty && fields[y, x] != EmptyCell && shape != TypeShape.Empty) return StepResult.Illegal;
 
             if (shape == TypeShape.Empty)
                 return RemoveShape(x, y);
 
             TypeShape[] newShapes = new TypeShape[Shapes.Length + 1];
-            byte newIndex = (byte) (newShapes.Length - 1);
+            byte newIndex = (byte)(newShapes.Length - 1);
 
             if (newIndex == 0)
                 currentShapeLocation = new ShapeLocation(x, y);
@@ -137,7 +147,7 @@ namespace GameLogic
 
             fields[y, x] = (byte)(Shapes.Length - 1);
             fields[currentShapeLocation.Y, currentShapeLocation.X] = EmptyCell;
-           
+
             TypeShape curShape = Shapes[0];
 
             int i;
@@ -229,8 +239,29 @@ namespace GameLogic
         {
             double dx = countCellWidth - 1 - location.X;
             double dy = countCellHeight - 1 - location.Y;
-            double maxd = Math.Sqrt((countCellWidth-1) * (countCellWidth-1) + (countCellHeight-1) * (countCellHeight-1));
+            double maxd = Math.Sqrt((countCellWidth - 1) * (countCellWidth - 1) + (countCellHeight - 1) * (countCellHeight - 1));
             return Math.Round(maxd - Math.Sqrt(dx * dx + dy * dy));
+        }
+
+        public virtual List<ShapeLocation> GetNeighbours(ShapeLocation curLocation)
+        {
+            List<ShapeLocation> neighbors = new List<ShapeLocation>();
+
+            int NewLocX;
+            int NewLocY;
+
+            foreach (StepOffset offset in neighborOffsets)
+            {
+                NewLocX = curLocation.X + offset.X;
+                NewLocY = curLocation.Y + offset.Y;
+                if (NewLocX < countCellWidth && NewLocY < countCellHeight && NewLocX >= 0 && NewLocY >= 0)
+                {
+                    if (fields[NewLocY, NewLocX] != EmptyCell)
+                        neighbors.Add(new ShapeLocation(NewLocX, NewLocY));
+                }
+            }
+
+            return neighbors;
         }
     }
 }

@@ -12,7 +12,6 @@ namespace GameLogic
         TypeShape typeShape { get; }
         int MinRelationCount{ get; }
         List<Step> GetNextSteps(Step curStep);
-        List<ShapeLocation> GetNeighbours(GameBoard board, ShapeLocation curLocation);
         bool IsMustDie(GameBoard board, ShapeLocation curLocation);
     }
 }
