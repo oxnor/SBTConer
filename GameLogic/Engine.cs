@@ -9,7 +9,6 @@ namespace GameLogic
 {
     public class Engine
     {
-        GameBoard Board;
         Dictionary<TypeShape, IShape> ShapeSet = new Dictionary<TypeShape, IShape>();
 
         public Engine()
