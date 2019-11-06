@@ -15,6 +15,7 @@ namespace task
     public partial class BoardControl : UserControl
     {
         private Pen penBlack;
+        private Pen penRelation;
         private int cellSize;
         private int shapeSize;
         private int halfShapeSize;
@@ -54,6 +55,10 @@ namespace task
         {
             this.penBlack = new Pen(Color.Black);
             this.penBlack.Width = 1;
+
+            this.penRelation = new Pen(Color.Lime);
+            this.penRelation.Width = 1;
+            this.penRelation.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
         }
 
 
@@ -105,6 +110,29 @@ namespace task
                                 this.AddSquare(graphics, x, y);
                                 break;
                             }
+                    }
+
+                    int nx = 0, ny = 0;
+                    foreach (ShapeLocation neighbourLocation in gameBoard.GetNeighbours(new ShapeLocation(cellX, cellY)))
+                    {
+                        this.CellToCoords(neighbourLocation.X, neighbourLocation.Y, ref nx, ref ny);
+                        graphics.DrawLine(penRelation, x, y, nx, ny);
+                    }
+                }
+            });
+
+            gameBoard.CellVisitor((cellX, cellY, curShape) =>
+            {
+                if (curShape != TypeShape.Empty)
+                {
+                    int x = 0, y = 0;
+                    this.CellToCoords(cellX, cellY, ref x, ref y);
+
+                    int nx = 0, ny = 0;
+                    foreach (ShapeLocation neighbourLocation in gameBoard.GetNeighbours(new ShapeLocation(cellX, cellY)))
+                    {
+                        this.CellToCoords(neighbourLocation.X, neighbourLocation.Y, ref nx, ref ny);
+                        graphics.DrawLine(penRelation, x, y, nx, ny);
                     }
                 }
             });
