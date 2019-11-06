@@ -240,7 +240,10 @@ namespace GameLogic
             double dx = countCellWidth - 1 - location.X;
             double dy = countCellHeight - 1 - location.Y;
             double maxd = Math.Sqrt((countCellWidth - 1) * (countCellWidth - 1) + (countCellHeight - 1) * (countCellHeight - 1));
-            return Math.Round(maxd - Math.Sqrt(dx * dx + dy * dy));
+
+            int neighborsCount = GetNeighbours(location).Count;
+
+            return Math.Round(maxd - Math.Sqrt(dx * dx + dy * dy)) * 10 + neighborsCount;
         }
 
         public virtual List<ShapeLocation> GetNeighbours(ShapeLocation curLocation)
