@@ -22,5 +22,11 @@ namespace GameLogic
 
         public byte X { get; }
         public byte Y { get; }
+
+        public override bool Equals(object obj)
+        {
+            ShapeLocation l = (ShapeLocation)obj;
+            return l.X == this.X && l.Y == this.Y;
+        }
     }
 }

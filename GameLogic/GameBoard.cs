@@ -266,5 +266,23 @@ namespace GameLogic
 
             return neighbors;
         }
+
+        public ShapeLocation[] Locations()
+        {
+            ShapeLocation[] loc = new ShapeLocation[Shapes.Length];
+            byte shapeIndex;
+
+            for (byte y = 0; y < countCellHeight; y++)
+                for (byte x = 0; x < countCellWidth; x++)
+                {
+                    shapeIndex = fields[y, x];
+                    if (shapeIndex != EmptyCell)
+                    {
+                        loc[shapeIndex] = new ShapeLocation(x, y);
+                    }
+                }
+
+            return loc;
+        }
     }
 }

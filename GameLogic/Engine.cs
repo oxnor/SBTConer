@@ -1,4 +1,5 @@
 ﻿using GameLogic.Shapes;
+using GameLogic.StepTree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace GameLogic
     public class Engine
     {
         Dictionary<TypeShape, IShape> ShapeSet = new Dictionary<TypeShape, IShape>();
+        int MaxDeep = 2;
 
         public Engine()
         {
@@ -27,30 +29,14 @@ namespace GameLogic
 
         public GameBoard GetNextPosition(GameBoard curBoard)
         {
-            IShape curShape = ShapeSet[curBoard.CurrentShape];
-            Step step0 = new Step(curBoard, StepResult.Ok, 0);
-            List<Step> steps = curShape.GetNextSteps(step0);
-            Step bestStep = null;
-            foreach(Step step in steps)
-            {
-                if (bestStep == null)
-                {
-                    bestStep = step;
-                }
-                else
-                {
-                    if (step.Score > bestStep.Score)
-                        bestStep = step;
-                }
-            }
-
-            return bestStep?.Board;
+            Map map = new Map(curBoard.Locations().Select(l => new MapElement(l)).ToArray());
+            return GetBestStep(curBoard, map);
         }
 
-        public GameBoard GetBestStep(GameBoard curBoard)
+        public GameBoard GetNextPosition0(GameBoard curBoard)
         {
             IShape curShape = ShapeSet[curBoard.CurrentShape];
-            Step step0 = new Step(curBoard, StepResult.Ok, 0);
+            Step step0 = new Step(curBoard, curBoard.CurrentShapeLocation, StepResult.Ok, 0);
             List<Step> steps = curShape.GetNextSteps(step0);
             Step bestStep = null;
             foreach (Step step in steps)
@@ -67,6 +53,54 @@ namespace GameLogic
             }
 
             return bestStep?.Board;
+        }
+
+        public GameBoard GetBestStep(GameBoard curBoard, Map map)
+        {
+            IShape curShape = ShapeSet[curBoard.CurrentShape];
+            Step step0 = new Step(curBoard, curBoard.CurrentShapeLocation, StepResult.Ok, 0);
+            List<Step> steps = curShape.GetNextSteps(step0);
+            Map newMap = null;
+            MapElement curMapElement = map.FindNodeFor(curBoard.CurrentShapeLocation);
+            MapElement newMapElement;
+            foreach (Step step in steps)
+            {
+                if (curMapElement.Deep < MaxDeep)
+                {
+                    newMap = map.MoveShape(curBoard.CurrentShapeLocation, step.NewLocation);
+                    newMapElement = newMap.FindNodeFor(step.NewLocation);
+                    newMapElement.Deep = curMapElement.Deep + 1;
+
+                    GetBestStep(step.Board, newMap);
+
+                    if (newMapElement.BestStep != null)
+                    {
+                        if (curMapElement.BestStep == null)
+                        {
+                            curMapElement.BestStep = step;
+                        }
+                        else
+                        {
+                            if (newMapElement.BestStep.Score > curMapElement.BestStep.Score)
+                                curMapElement.BestStep = step;
+                        }
+                    }
+                }
+                else
+                {
+                    if (curMapElement.BestStep == null)
+                    {
+                        curMapElement.BestStep = step;
+                    }
+                    else
+                    {
+                        if (step.Score > curMapElement.BestStep.Score)
+                            curMapElement.BestStep = step;
+                    }
+                }
+            }
+
+            return curMapElement?.BestStep?.Board;
         }
     }
 }

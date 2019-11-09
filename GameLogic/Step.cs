@@ -8,9 +8,10 @@ namespace GameLogic
 {
     public class Step
     {
-        public Step(GameBoard board, StepResult result, double score)
+        public Step(GameBoard board, ShapeLocation newLocation, StepResult result, double score)
         {
             Board = board;
+            NewLocation = newLocation;
             Result = result;
             Score = score;
         }
@@ -18,5 +19,6 @@ namespace GameLogic
         public double Score { get; }
         public GameBoard Board { get; }
         public StepResult Result { get; }
+        public ShapeLocation NewLocation { get; }
     }
 }

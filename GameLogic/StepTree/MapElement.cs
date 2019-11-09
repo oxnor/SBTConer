@@ -8,20 +8,20 @@ namespace GameLogic.StepTree
 {
     public class MapElement
     {
-        public MapElement(ShapeLocation location, int deepSearch = -1, Step bestStep = null)
+        public MapElement(ShapeLocation location, int deep = -1, Step bestStep = null)
         {
             Location = location;
-            DeepSearch = -1;
+            Deep = -1;
             BestStep = bestStep;
         }
 
         public ShapeLocation Location {get;}
-        public int DeepSearch { set; get; }
+        public int Deep { set; get; }
         public Step BestStep { set; get; }
 
-        public MapElement Clone()
+        public MapElement Clone(ShapeLocation location = null)
         {
-            return new MapElement(Location, DeepSearch, BestStep);
+            return new MapElement(location??Location, Deep, BestStep);
         }
     }
 }

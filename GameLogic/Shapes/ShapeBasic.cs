@@ -46,11 +46,11 @@ namespace GameLogic.Shapes
                     if (IsMustDie(newBoard, newLocation))
                     {
                         newBoard.RemoveShape(NewLocX, NewLocY);
-                        Steps.Add(new Step(newBoard, StepResult.Die, double.MinValue));
+                        Steps.Add(new Step(newBoard, newLocation, StepResult.Die, double.MinValue));
                     }
                     else
                     {
-                        Steps.Add(new Step(newBoard, StepResult.Ok, newBoard.Score(newLocation)));
+                        Steps.Add(new Step(newBoard, newLocation, StepResult.Ok, newBoard.Score(newLocation)));
                     }
 
                     newBoard = curStep.Board.Clone();

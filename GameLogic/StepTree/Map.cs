@@ -19,5 +19,13 @@ namespace GameLogic.StepTree
         {
             return nodes.First(n => n.Location.Equals(shapeLocation));
         }
+
+        public Map MoveShape(ShapeLocation curLocation, ShapeLocation newLocation)
+        {
+            MapElement curElement = FindNodeFor(curLocation);
+            MapElement newElement = curElement.Clone(newLocation);
+            MapElement[] newNodesArray = nodes.Select(n => n != curElement? n : newElement).ToArray();
+            return new Map(newNodesArray);
+        }
     }
 }
