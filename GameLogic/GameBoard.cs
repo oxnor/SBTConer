@@ -69,7 +69,7 @@ namespace GameLogic
         {
             for (int y = 0; y < countCellHeight; y++)
                 for (int x = 0; x < countCellWidth; x++)
-                    cellVisitorHandler(x, y, this[y, x]);
+                    cellVisitorHandler(x, y, this[y, x], fields[y, x]);
         }
 
         public StepResult PutShape(TypeShape shape, int x, int y, bool checkEmpty = true)
@@ -240,7 +240,10 @@ namespace GameLogic
             double dx = countCellWidth - 1 - location.X;
             double dy = countCellHeight - 1 - location.Y;
             double maxd = Math.Sqrt((countCellWidth - 1) * (countCellWidth - 1) + (countCellHeight - 1) * (countCellHeight - 1));
-            return Math.Round(maxd - Math.Sqrt(dx * dx + dy * dy));
+
+            int neighborsCount = GetNeighbours(location).Count;
+
+            return Math.Round(maxd - Math.Sqrt(dx * dx + dy * dy)) * 10 + neighborsCount;
         }
 
         public virtual List<ShapeLocation> GetNeighbours(ShapeLocation curLocation)
