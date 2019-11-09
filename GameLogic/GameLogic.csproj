@@ -54,6 +54,8 @@
     <Compile Include="StepOffset.cs" />
     <Compile Include="StepTree\DecisionNode.cs" />
     <Compile Include="StepTree\DecisionTree.cs" />
+    <Compile Include="StepTree\Map.cs" />
+    <Compile Include="StepTree\MapElement.cs" />
     <Compile Include="Types.cs" />
   </ItemGroup>
   <ItemGroup />

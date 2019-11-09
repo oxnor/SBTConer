@@ -46,5 +46,27 @@ namespace GameLogic
 
             return bestStep?.Board;
         }
+
+        public GameBoard GetBestStep(GameBoard curBoard)
+        {
+            IShape curShape = ShapeSet[curBoard.CurrentShape];
+            Step step0 = new Step(curBoard, StepResult.Ok, 0);
+            List<Step> steps = curShape.GetNextSteps(step0);
+            Step bestStep = null;
+            foreach (Step step in steps)
+            {
+                if (bestStep == null)
+                {
+                    bestStep = step;
+                }
+                else
+                {
+                    if (step.Score > bestStep.Score)
+                        bestStep = step;
+                }
+            }
+
+            return bestStep?.Board;
+        }
     }
 }
