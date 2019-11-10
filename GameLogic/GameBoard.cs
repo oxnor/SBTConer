@@ -47,6 +47,11 @@ namespace GameLogic
             this.Deserialize(binBoard);
         }
 
+        public bool IsEmpty
+        {
+            get => Shapes.Length == 0;
+        }
+
         public TypeShape CurrentShape
         {
             get { return Shapes[0]; }
