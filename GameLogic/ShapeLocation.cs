@@ -28,5 +28,10 @@ namespace GameLogic
             ShapeLocation l = (ShapeLocation)obj;
             return l.X == this.X && l.Y == this.Y;
         }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
+        }
     }
 }

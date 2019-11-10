@@ -11,7 +11,7 @@ namespace GameLogic
     public class Engine
     {
         Dictionary<TypeShape, IShape> ShapeSet = new Dictionary<TypeShape, IShape>();
-        int MaxDeep = 2;
+        int MaxDeep = 1;
 
         public Engine()
         {
@@ -71,7 +71,8 @@ namespace GameLogic
                     newMapElement = newMap.FindNodeFor(step.NewLocation);
                     newMapElement.Deep = curMapElement.Deep + 1;
 
-                    GetBestStep(step.Board, newMap);
+                    if (!step.Board.IsEmpty)
+                        GetBestStep(step.Board, newMap);
 
                     if (newMapElement.BestStep != null)
                     {

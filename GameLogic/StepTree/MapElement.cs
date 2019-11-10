@@ -8,7 +8,7 @@ namespace GameLogic.StepTree
 {
     public class MapElement
     {
-        public MapElement(ShapeLocation location, int deep = -1, Step bestStep = null)
+        public MapElement(ShapeLocation location, int deep = 0, Step bestStep = null)
         {
             Location = location;
             Deep = deep;
